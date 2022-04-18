@@ -1,6 +1,6 @@
 build-blueprint-linter:
-	go build -o bin/content_linter
-	zip -j content-linter.zip ./bin/content_linter ./blueprint.rule.json
+	go build -o bin/gc_linter
+	zip -j gc_linter.zip ./bin/gc_linter ./blueprint.rule.json
 
 run:
 	go run .

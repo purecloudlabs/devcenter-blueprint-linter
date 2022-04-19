@@ -1,0 +1,47 @@
+# Blueprint Linter Results
+
+[Success](#success-{{len .success}})
+
+[Failed](#failed-{{len .failed}})
+
+## Success ({{len .success}})
+
+{{range $i, $result := .success}}
+
+### {{$result.id}}
+
+{{$result.description}}
+
+{{range $highlight := $result.fileHighlights}}
+{{$highlight.path}} (ln. {{$highlight.lineNumber}})
+
+```
+{{$highlight.lineContent}}
+```
+
+{{else}}
+
+{{end}}
+
+{{end}}
+
+## Failed ({{len .failed}})
+
+    {{range $i, $result := .failed}}
+
+### {{$result.id}}
+
+{{$result.description}}
+
+{{range $highlight := $result.fileHighlights}}
+{{$highlight.path}} (ln. {{$highlight.lineNumber}})
+
+```
+{{$highlight.lineContent}}
+```
+
+{{else}}
+
+{{end}}
+
+{{end}}

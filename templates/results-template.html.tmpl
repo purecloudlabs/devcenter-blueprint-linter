@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blueprint Linter Results</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+  <section class="hero is-info">
+    <div class="hero-body">
+      <p class="title">
+        Blueprint Linter Results
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Level</th>
+          <th>Passed</th>
+          <th>Description</th>
+          <th>File</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range $i, $result := .failed}}
+          <tr>
+            <td>{{$result.id}}</td>
+            <td>{{$result.level}}</td>
+            <td>❌</td>
+            <td>{{$result.description}}</td>
+            <td>
+            {{range $highlight := $result.fileHighlights}}
+              {{$highlight.path}} (ln. {{$highlight.lineNumber}})
+              <ul>
+                <li>{{$highlight.lineContent}}</li>
+              </ul>
+            {{else}}
+              
+            {{end}}
+            </td>
+          </tr>
+        {{end}}
+  
+        {{range $i, $result := .success}}
+          <tr>
+            <td>{{$result.id}}</td>
+            <td>{{$result.level}}</td>
+            <td>✔️</td>
+            <td>{{$result.description}}</td>
+            <td>
+              {{range $highlight := $result.fileHighlights}}
+              {{$highlight.path}} (ln. {{$highlight.lineNumber}})
+              <ul>
+                <li>{{$highlight.lineContent}}</li>
+              </ul>
+            {{else}}
+              
+            {{end}}
+            </td>
+          </tr>
+        {{end}}
+       
+      </tbody>
+    </table>
+    
+  </section>
+  
+</body>
+</html>

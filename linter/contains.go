@@ -2,13 +2,11 @@ package linter
 
 import (
 	"errors"
-	"os"
 	"regexp"
 	"strings"
 
 	"github.com/PrinceMerluza/devcenter-content-linter/blueprintrepo"
 	"github.com/PrinceMerluza/devcenter-content-linter/config"
-	"github.com/PrinceMerluza/devcenter-content-linter/logger"
 	"github.com/PrinceMerluza/devcenter-content-linter/utils"
 )
 
@@ -23,15 +21,14 @@ func (condition *ContainsCondition) Validate() *ConditionResult {
 		IsSuccess:      true,
 	}
 
-	logger.Tracef("Opening file %s \n", condition.Path)
-	fileData, err := os.ReadFile(condition.Path)
-	if err != nil {
-		ret.Error = err
+	fileContentPtr := utils.GetFileContent(condition.Path)
+	if fileContentPtr == nil {
+		ret.Error = errors.New("failed to read file")
 		ret.IsSuccess = false
 		return ret
 	}
 
-	dataString := string(fileData[:])
+	dataString := *fileContentPtr
 
 	for _, contains := range *condition.ContainsArr {
 		if strings.TrimSpace(contains.Value) == "" {

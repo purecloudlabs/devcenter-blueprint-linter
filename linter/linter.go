@@ -94,7 +94,7 @@ func (input *ValidationData) Validate() (*ValidationResult, error) {
 	return finalResult, nil
 }
 
-// Evaluate the rulegroup. Channel should be passed where the RuleResults will
+// Validate the rulegroup. Channel should be passed where the RuleResults will
 // be sent to.
 func validateRuleGroup(ruleGroup *config.RuleGroup, ch chan *RuleResult, groupId string, path string) error {
 	if ch == nil {
@@ -121,7 +121,7 @@ func validateRuleGroup(ruleGroup *config.RuleGroup, ch chan *RuleResult, groupId
 	return nil
 }
 
-// Evaluate the specific rule and get the RuleResult. Path is the root of
+// Validate the specific rule and get the RuleResult. Path is the root of
 // content files
 func validateRule(rule *config.Rule, ruleId string, contentPath string) *RuleResult {
 	ret := &RuleResult{
@@ -167,7 +167,7 @@ func validateRule(rule *config.Rule, ruleId string, contentPath string) *RuleRes
 	return ret
 }
 
-// Evaluate the condition. Any failure in any type of condition will short circuit the evaluation.
+// Validate the condition. Any failure in any type of condition will short circuit the evaluation.
 func validateCondition(condition *config.Condition, targetPath string) *ConditionResult {
 	var ret *ConditionResult
 	var validator Validator

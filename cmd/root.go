@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"errors"
 	"os"
+	"path"
 
 	"github.com/PrinceMerluza/devcenter-content-linter/blueprintrepo"
 	"github.com/PrinceMerluza/devcenter-content-linter/config"
@@ -57,6 +58,22 @@ func validateContent(repoPath string) *linter.ValidationResult {
 		RuleData:    config.LoadedRuleSet,
 	}
 
+	// Cache file contents
+	filesToUse := []string{}
+	for _, rg := range *validationData.RuleData.RuleGroups {
+		logger.Info(rg)
+		for _, r := range *rg.Rules {
+			logger.Info(r)
+
+			if r.File == nil {
+				continue
+			}
+			filesToUse = append(filesToUse, path.Join(blueprintrepo.GetWorkingPath(), *r.File))
+		}
+	}
+	utils.StoreFiles(&filesToUse)
+
+	// Start Validation
 	result, err := validationData.Validate()
 	if err != nil {
 		logger.Fatal(err)

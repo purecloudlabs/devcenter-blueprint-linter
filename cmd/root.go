@@ -7,6 +7,7 @@ package cmd
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 	"path"
 
@@ -59,6 +60,7 @@ func validateContent(repoPath string) *linter.ValidationResult {
 	}
 
 	// Cache file contents
+	filesSet := make(map[string]bool)
 	filesToUse := []string{}
 	for _, rg := range *validationData.RuleData.RuleGroups {
 		logger.Info(rg)
@@ -68,9 +70,19 @@ func validateContent(repoPath string) *linter.ValidationResult {
 			if r.File == nil {
 				continue
 			}
-			filesToUse = append(filesToUse, path.Join(blueprintrepo.GetWorkingPath(), *r.File))
+
+			filePath := path.Join(blueprintrepo.GetWorkingPath(), *r.File)
+			if _, err := os.Stat(filePath); err != nil {
+				filePath = path.Join(path.Dir(filePath), fmt.Sprintf("draft-%s", path.Base(*r.File)))
+			}
+
+			filesSet[filePath] = true
 		}
 	}
+	for k := range filesSet {
+		filesToUse = append(filesToUse, k)
+	}
+
 	utils.StoreFiles(&filesToUse)
 
 	// Start Validation

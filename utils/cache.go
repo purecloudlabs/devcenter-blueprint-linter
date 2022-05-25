@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/PrinceMerluza/devcenter-content-linter/logger"
@@ -25,7 +24,6 @@ func StoreFiles(files *[]string) {
 		// Open and store file contents in cache
 		fileData, err := os.ReadFile(file)
 		if err != nil {
-			fmt.Println(err.Error())
 			logger.Warnf("Error opening file %s \n: %s \n", file, err.Error())
 			FileCache[file] = nil
 			continue

@@ -138,6 +138,10 @@ func validateRule(rule *config.Rule, ruleId string, contentPath string) *RuleRes
 		targetPath = contentPath
 	}
 
+	if _, err := os.Stat(targetPath); rule.File != nil && err != nil {
+		targetPath = path.Join(path.Dir(targetPath), fmt.Sprintf("draft-%s", path.Base(targetPath)))
+	}
+
 	for _, condition := range *rule.Conditions {
 		condResult := validateCondition(&condition, targetPath)
 		if condResult == nil {

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"path/filepath"
+	"strings"
 
 	"github.com/PrinceMerluza/devcenter-content-linter/config"
 )
@@ -138,8 +140,11 @@ func validateRule(rule *config.Rule, ruleId string, contentPath string) *RuleRes
 		targetPath = contentPath
 	}
 
+	// If file is not found try the draft version
 	if _, err := os.Stat(targetPath); rule.File != nil && err != nil {
-		targetPath = path.Join(path.Dir(targetPath), fmt.Sprintf("draft-%s", path.Base(targetPath)))
+		fileName := path.Base(targetPath)
+		fileNameNoExt := strings.TrimSuffix(fileName, filepath.Ext(fileName))
+		targetPath = path.Join(path.Dir(targetPath), fmt.Sprintf("%s-draft", fileNameNoExt))
 	}
 
 	for _, condition := range *rule.Conditions {

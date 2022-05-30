@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"path/filepath"
+	"strings"
 
 	"github.com/PrinceMerluza/devcenter-content-linter/blueprintrepo"
 	"github.com/PrinceMerluza/devcenter-content-linter/config"
@@ -71,9 +73,12 @@ func validateContent(repoPath string) *linter.ValidationResult {
 				continue
 			}
 
+			// If file is not found try the draft version
 			filePath := path.Join(blueprintrepo.GetWorkingPath(), *r.File)
 			if _, err := os.Stat(filePath); err != nil {
-				filePath = path.Join(path.Dir(filePath), fmt.Sprintf("draft-%s", path.Base(*r.File)))
+				fileName := path.Base(*r.File)
+				fileNameNoExt := strings.TrimSuffix(fileName, filepath.Ext(fileName))
+				filePath = path.Join(path.Dir(filePath), fmt.Sprintf("%s-draft", fileNameNoExt))
 			}
 
 			filesSet[filePath] = true

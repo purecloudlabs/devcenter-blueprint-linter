@@ -21,10 +21,10 @@ ruleGroups:
       conditions:
       - pathExists: "./blueprint/images"
       level: error
-    - description: Every Genesys Cloud blueprint should have a blueprint/images directory
-        that will contain all of the image assets for a project.
+    - description: Every Genesys Cloud blueprint should have a overview.png file that
+        contains a high-level architecture diagram for the blueprint.
       conditions:
-      - pathExists: "./blueprint/images"
+      - pathExists: "./blueprint/images/overview.png"
       level: error
     - description: Every Genesys Cloud blueprint should have a blueprint/index.md
         that contains a complete writeup in Markdown of the blueprint.
@@ -69,65 +69,68 @@ ruleGroups:
         - type: regex
           value: 'summary: *.*'
       level: error
-    - description: 'The index.md must have a ## Scenario section describing the problem
-        the blueprint is trying to solve.'
+    - description: The index.md must have a '## Scenario' section describing the problem
+        the blueprint is trying to solve.
       file: "./blueprint/index.md"
       conditions:
       - contains:
         - type: regex
           value: "## *Scenario *"
       level: error
-    - description: 'The index.md must have a ## Solution section describing the problem
-        the blueprint is trying to solve.'
+    - description: The index.md must have a '## Solution' section describing how blueprint
+        solves the project.
       file: "./blueprint/index.md"
       conditions:
       - contains:
         - type: regex
           value: "## *Solution *"
       level: error
-    - description: 'The index.md must have a ## Content section describing the problem
-        the blueprint is trying to solve.'
+    - description: The index.md must have a '## Content' section linking to the rest
+        of the document.
       file: "./blueprint/index.md"
       conditions:
       - contains:
         - type: regex
           value: "## *Content *"
       level: error
-    - description: 'The index.md must have a ## Prerequisites section describing the
-        problem the blueprint is trying to solve.'
+    - description: The index.md file must have a '## Prerequisites' section that describes
+        the skillset and technical requirements an individual must have to successfully
+        install the blueprint.
       file: "./blueprint/index.md"
       conditions:
       - contains:
         - type: regex
           value: "## *Prerequisites *"
       level: error
-    - description: 'The index.md must have a ### Specialized knowledge section describing
-        the problem the blueprint is trying to solve.'
+    - description: The index.md file should have '### Specialized knowledge' section
+        that enumerates the skill sets that the implementor should possess in order
+        to carry out the blueprint.
       file: "./blueprint/index.md"
       conditions:
       - contains:
         - type: regex
           value: "### *Specialized knowledge *"
       level: error
-    - description: 'The index.md must have a ## Implementation steps section describing
-        the problem the blueprint is trying to solve.'
+    - description: The index.md file should have a '## Implementation steps' section
+        that enumerates the steps necessary to carry out the blueprint implementation.
       file: "./blueprint/index.md"
       conditions:
       - contains:
         - type: regex
           value: "## *Implementation steps *"
       level: error
-    - description: 'The index.md must have a ### Download the repository containing
-        the project files section describing the problem the blueprint is trying to
-        solve.'
+    - description: The index.md file should have a '### Download the repository containing
+        the project files' section that describe how to clone the blueprint repository
+        from GitHub.
       file: "./blueprint/index.md"
       conditions:
       - contains:
         - type: regex
           value: "### *Download the repository containing the project files *"
       level: error
-    - description: 'The index.md must have a ## Additional resources section describing
-        the problem the blueprint is trying to solve.'
+    - description: The index.md should have a  '## Additional resources' section containing
+        the project files section.  This section should include any additional links
+        that will be useful for the blueprint.
       file: "./blueprint/index.md"
       conditions:
       - contains:

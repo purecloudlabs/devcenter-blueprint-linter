@@ -7,6 +7,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/PrinceMerluza/devcenter-content-linter/config"
 )
@@ -18,9 +19,11 @@ type ValidationData struct {
 	RuleData    *config.RuleSet
 }
 
+// Final result file
 type ValidationResult struct {
 	SuccessResults *[]RuleResult `json:"success"`
 	FailureResults *[]RuleResult `json:"failed"`
+	Timestamp      string        `json:"timestamp"`
 }
 
 type RuleResult struct {
@@ -80,6 +83,7 @@ func (input *ValidationData) Validate() (*ValidationResult, error) {
 		}
 	}
 
+	// Add the failed and success results to the final result
 	for i := 0; i < rulesCount; i++ {
 		ruleResult := <-ch
 
@@ -92,6 +96,8 @@ func (input *ValidationData) Validate() (*ValidationResult, error) {
 			continue
 		}
 	}
+
+	finalResult.Timestamp = time.Now().UTC().Format("2006-01-02T15:04:05Z")
 
 	return finalResult, nil
 }
